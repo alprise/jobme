@@ -10,16 +10,20 @@ using JobMe.Web.Mvc.Models;
 
 namespace JobMe.Web.Mvc.Controllers
 {
+    [Authorize]
     public class JobOfferController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         //
         // GET: /JobOffer/
+    
         public ActionResult Index()
         {
-            var offers = db.JobOffers.Include(s=>s.User).ToList();
-            var jobOffers = offers.Select(x => new JobOfferIndexViewModel { Id=x.Id, Requester = x.User.UserName, Title = x.Title, PublishedOn = x.PublishedOn });
+            var userName = User.Identity.Name;
+            var userId = db.Users.SingleOrDefault(x => x.UserName == userName).Id;
+            var offers = db.JobOffers.Include(s => s.PublishedByUser).Where(u => u.CreatedByUser.Id == userId).ToList();
+            var jobOffers = offers.Select(x => new JobOfferIndexViewModel { Id=x.Id, Requester = x.PublishedByUser.UserName, Title = x.Title, PublishedOn = x.PublishedOn });
             return View(jobOffers);
         }
 
@@ -31,7 +35,7 @@ namespace JobMe.Web.Mvc.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            JobOffer offer = db.JobOffers.Include(o => o.User).Where(x => x.Id == id).SingleOrDefault();
+            JobOffer offer = db.JobOffers.Include(o => o.PublishedByUser).Where(x => x.Id == id).SingleOrDefault();
             if (offer == null)
             {
                 return HttpNotFound();
@@ -39,7 +43,7 @@ namespace JobMe.Web.Mvc.Controllers
             JobOfferCreateEditViewModel viewModel = new JobOfferCreateEditViewModel
             {
                 Id = offer.Id,
-                Requester = offer.User.UserName,
+                Requester = offer.PublishedByUser.UserName,
                 EmailToApply = offer.EmailToApply,
                 Description = offer.Description,
                 Title = offer.Title,
@@ -61,6 +65,9 @@ namespace JobMe.Web.Mvc.Controllers
         {
             if (ModelState.IsValid)
             {
+                var userName = User.Identity.Name;
+                var loggedUser = db.Users.SingleOrDefault(x => x.UserName == userName);
+            
                 var user = new ApplicationUser { UserName = jobOffer.Requester, Email = jobOffer.EmailToApply };/*todo: email for new user?*/
                 var existingUser = db.Users.Where(u => u.UserName == user.UserName).SingleOrDefault();
                 if (existingUser != null)
@@ -73,7 +80,8 @@ namespace JobMe.Web.Mvc.Controllers
                     EmailToApply = jobOffer.EmailToApply,
                     Description=jobOffer.Description, 
                     PublishedOn=jobOffer.PublishedOn,
-                    User = user
+                    PublishedByUser = user,
+                    CreatedByUser = loggedUser
                 });
                 db.SaveChanges();/*todo: catch exceptions (2 same e-mails for 2 users) we should display it*/
                 return RedirectToAction("Index");
@@ -89,7 +97,7 @@ namespace JobMe.Web.Mvc.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            JobOffer offer = db.JobOffers.Include(o => o.User).Where(x => x.Id == id).SingleOrDefault();
+            JobOffer offer = db.JobOffers.Include(o => o.PublishedByUser).Where(x => x.Id == id).SingleOrDefault();
             if (offer == null)
             {
                 return HttpNotFound();
@@ -97,7 +105,7 @@ namespace JobMe.Web.Mvc.Controllers
             JobOfferCreateEditViewModel viewModel = new JobOfferCreateEditViewModel
             {
                 Id = offer.Id,
-                Requester = offer.User.UserName,
+                Requester = offer.PublishedByUser.UserName,
                 EmailToApply = offer.EmailToApply,
                 Description = offer.Description,
                 Title = offer.Title,
@@ -132,7 +140,7 @@ namespace JobMe.Web.Mvc.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            JobOffer offer = db.JobOffers.Include(o=>o.User).Where(x=>x.Id == id).SingleOrDefault();
+            JobOffer offer = db.JobOffers.Include(o=>o.PublishedByUser).Where(x=>x.Id == id).SingleOrDefault();
             
             if (offer == null)
             {
@@ -141,7 +149,7 @@ namespace JobMe.Web.Mvc.Controllers
             JobOfferDeleteViewModel viewModel = new JobOfferDeleteViewModel
             {
                 Id = offer.Id,
-                Requester = offer.User.UserName,
+                Requester = offer.PublishedByUser.UserName,
                 Title = offer.Title,
                 PublishedOn = offer.PublishedOn
             };

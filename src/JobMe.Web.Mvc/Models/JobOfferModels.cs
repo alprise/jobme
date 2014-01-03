@@ -18,13 +18,16 @@ namespace JobMe.Web.Mvc.Models
     public class JobOffer
     {
         public string Id { get; set; }
-        public string UserId { get; set; }
+        public string PublishedByUserId { get; set; }
+        public string CreatedByUserId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTime PublishedOn { get; set; }
         public byte DaysAvailable { get; set; }
         public int JobType { get; set; } // Hire / Look for or (work as / need)
         public string EmailToApply { get; set; } // Email to apply
-        public virtual ApplicationUser User { get; set; }
+        public virtual ApplicationUser PublishedByUser { get; set; }
+        public virtual ApplicationUser CreatedByUser { get; set; }
+        public string TestProperty { get; set; }
     }
 }
