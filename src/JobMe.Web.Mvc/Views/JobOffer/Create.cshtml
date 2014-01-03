@@ -14,48 +14,50 @@
     <fieldset class="form-horizontal">
         <legend>ServiceOfferViewModel</legend>
 
-        <div class="control-group">
-            @Html.LabelFor(model => model.Requester, new { @class = "control-label" })
-			<div class="controls">
-				@Html.EditorFor(model => model.Requester)
-				@Html.ValidationMessageFor(model => model.Requester, null, new { @class = "help-inline" })
-			</div>
-		</div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Requester, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Requester)
+                @Html.ValidationMessageFor(model => model.Requester)
+            </div>
+        </div>
 
-        <div class="control-group">
-            @Html.LabelFor(model => model.EmailToApply, new { @class = "control-label" })
-			<div class="controls">
-				@Html.EditorFor(model => model.EmailToApply)
-				@Html.ValidationMessageFor(model => model.EmailToApply, null, new { @class = "help-inline" })
-			</div>
-		</div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.EmailToApply, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.EmailToApply)
+                @Html.ValidationMessageFor(model => model.EmailToApply)
+            </div>
+        </div>
 
-        <div class="control-group">
-            @Html.LabelFor(model => model.Title, new { @class = "control-label" })
-			<div class="controls">
-				@Html.EditorFor(model => model.Title)
-				@Html.ValidationMessageFor(model => model.Title, null, new { @class = "help-inline" })
-			</div>
-		</div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Title)
+                @Html.ValidationMessageFor(model => model.Title)
+            </div>
+        </div>
 
-        <div class="control-group">
-            @Html.LabelFor(model => model.Description, new { @class = "control-label" })
-			<div class="controls">
-				@Html.EditorFor(model => model.Description)
-				@Html.ValidationMessageFor(model => model.Description, null, new { @class = "help-inline" })
-			</div>
-		</div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Description)
+                @Html.ValidationMessageFor(model => model.Description)
+            </div>
+        </div>
 
-        <div class="control-group">
-            @Html.LabelFor(model => model.PublishedOn, new { @class = "control-label" })
-			<div class="controls">
-				@Html.EditorFor(model => model.PublishedOn)
-				@Html.ValidationMessageFor(model => model.PublishedOn, null, new { @class = "help-inline" })
-			</div>
-		</div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.PublishedOn, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PublishedOn)
+                @Html.ValidationMessageFor(model => model.PublishedOn)
+            </div>
+        </div>
 
-        <div class="form-actions no-color">
-            <input type="submit" value="Create" class="btn" />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
         </div>
     </fieldset>
 }
