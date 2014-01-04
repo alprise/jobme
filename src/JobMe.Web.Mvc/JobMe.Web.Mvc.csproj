@@ -164,6 +164,8 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JobOfferController.cs" />
+    <Compile Include="Filters\SyncAttribute.cs" />
+    <Compile Include="Filters\SyncRequestHub.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -238,6 +240,8 @@
     <Content Include="Views\JobOffer\Edit.cshtml" />
     <Content Include="Views\JobOffer\Index.cshtml" />
     <Content Include="Views\Home\Chat.cshtml" />
+    <Content Include="Views\Home\Sync.cshtml" />
+    <Content Include="Views\Home\Unsync.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

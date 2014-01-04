@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JobMe.Web.Mvc.Filters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,6 +9,21 @@ namespace JobMe.Web.Mvc.Controllers
 {
     public class HomeController : Controller
     {
+        public ActionResult Certificates()
+        {
+            return View();
+        }
+        public ActionResult Sync()
+        {
+            GlobalFilters.Filters.Add(SyncAttribute.Instance);
+            return View();
+        }
+        public ActionResult Unsync()
+        {
+            GlobalFilters.Filters.Remove(SyncAttribute.Instance);
+            return View();
+        }
+
         public ActionResult Index()
         {
             return View();
