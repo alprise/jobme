@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using System.Data.Entity;
 using System.Net;
 using JobMe.Web.Mvc.Models;
+using Microsoft.AspNet.Identity;
 
 namespace JobMe.Web.Mvc.Controllers
 {
@@ -20,8 +21,7 @@ namespace JobMe.Web.Mvc.Controllers
     
         public ActionResult Index()
         {
-            var userName = User.Identity.Name;
-            var userId = db.Users.SingleOrDefault(x => x.UserName == userName).Id;
+            var userId = User.Identity.GetUserId();
             var offers = db.JobOffers.Include(s => s.PublishedByUser).Where(u => u.CreatedByUser.Id == userId).ToList();
             var jobOffers = offers.Select(x => new JobOfferIndexViewModel { Id=x.Id, Requester = x.PublishedByUser.UserName, Title = x.Title, PublishedOn = x.PublishedOn });
             return View(jobOffers);
