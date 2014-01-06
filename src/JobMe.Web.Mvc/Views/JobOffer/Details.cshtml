@@ -1,4 +1,4 @@
-﻿@model JobMe.Web.Mvc.Models.JobOfferCreateEditViewModel
+﻿@model JobMe.Web.Mvc.Models.JobOfferDetailsViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -27,22 +27,6 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.EmailToApply)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EmailToApply)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.PublishedOn)
         </dt>
 
@@ -52,7 +36,43 @@
 
     </dl>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+<table class="table">
+    <tr>
+        <th>
+            From
+        </th>
+        <th>
+            To
+        </th>
+        <th>
+            Subject
+        </th>
+        <th>
+            Date
+        </th>
+    </tr>
+
+    @foreach (var item in Model.Responses)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.From)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.To)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subject)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+        </tr>
+    }
+    </table>
+
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>

@@ -8,6 +8,8 @@ using System.Data.Entity;
 using System.Net;
 using JobMe.Web.Mvc.Models;
 using Microsoft.AspNet.Identity;
+using JobMe.Web.Mvc.Services;
+using System.Net.Mail;
 
 namespace JobMe.Web.Mvc.Controllers
 {
@@ -40,15 +42,14 @@ namespace JobMe.Web.Mvc.Controllers
             {
                 return HttpNotFound();
             }
-            JobOfferCreateEditViewModel viewModel = new JobOfferCreateEditViewModel
+            JobOfferDetailsViewModel viewModel = new JobOfferDetailsViewModel
             {
                 Id = offer.Id,
                 Requester = offer.PublishedByUser.UserName,
-                EmailToApply = offer.EmailToApply,
-                Description = offer.Description,
                 Title = offer.Title,
                 PublishedOn = offer.PublishedOn
             };
+            viewModel.Responses = new ImapService().GetMessagesForEmail(offer.EmailToApply);
 
             return View(viewModel);
         }

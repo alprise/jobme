@@ -33,4 +33,23 @@ namespace JobMe.Web.Mvc.Models
         public DateTime PublishedOn { get; set; }
         
     }
+
+    public class JobOfferDetailsViewModel
+    {
+        public string Id { get; set; }
+        public string Requester { get; set; }
+        public string Title { get; set; }
+        public DateTime PublishedOn { get; set; }
+        public IEnumerable<JobOfferResponseViewModel> Responses { get; set; }
+
+    }
+    public class JobOfferResponseViewModel
+    {
+        public string MessageId { get; set; }
+        public string From { get; set; }
+        public string To { get; set; }
+        public string Subject { get; set; }
+        public string Date { get; set; }
+        public DateTime? DateAndTime { get; set; }
+    }
 }
