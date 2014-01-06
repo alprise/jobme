@@ -22,13 +22,18 @@
         // Declare a proxy to reference the hub.
         var chat = $.connection.chatHub;
         // Create a function that the hub can call to broadcast messages.
-        chat.client.broadcastMessage = function (name, message) {
+        chat.client.broadcastMessage = function (name, message, datetime) {
+            var jDate = new Date(datetime);
+            var hours = jDate.getHours() <= 9 ? '0' + jDate.getHours() : jDate.getHours();
+            var minutes = jDate.getMinutes() <= 9 ? '0' + jDate.getMinutes() : jDate.getMinutes();
+            var hourMinute = hours + ':' + minutes;
+
             // Html encode display name and message.
             var encodedName = $('<div />').text(name).html();
             var encodedMsg = $('<div />').text(message).html();
             // Add the message to the page.
-            $('#discussion').append('<li><strong>' + encodedName
-                + '</strong>:&nbsp;&nbsp;' + encodedMsg + '</li>');
+            $('#discussion').append('<li><strong>(' + hourMinute
+                + ')</strong>' + encodedName + ':&nbsp;&nbsp;' + encodedMsg + '</li>');
         };
         // Set initial focus to message input box.
         $('#message').focus();
