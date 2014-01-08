@@ -35,6 +35,25 @@
             $('#discussion').append('<li><strong>(' + hourMinute
                 + ')</strong>' + encodedName + ':&nbsp;&nbsp;' + encodedMsg + '</li>');
         };
+
+        // Create a function to display the username and the hub can call to broadcast messages.
+        chat.client.showAvailableUsers = function (availableUsers, datetime) {
+            // Add the message to the page.
+            $('#discussion').append('<li><strong>' + availableUsers + '</strong>&nbsp; available for chat! </li>');
+        };
+
+        // Create a function to display the username and the hub can call to broadcast messages.
+        chat.client.showUserConnected = function (name, datetime) {
+            // Add the message to the page.
+            $('#discussion').append('<li><strong>' + name + '</strong>&nbsp;has connected! </li>');
+        };
+
+        // Create a function to display the username and the hub can call to broadcast messages.
+        chat.client.showUserDisconnected = function (name, datetime) {
+            // Add the message to the page.
+            $('#discussion').append('<li><strong>' + name + '</strong>&nbsp;has disconnected! </li>');
+        };
+
         // Set initial focus to message input box.
         $('#message').focus();
 
