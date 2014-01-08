@@ -62,7 +62,9 @@
             if (event.keyCode == 13) {
                 $("#sendmessage").click();
             }
+
         });
+
         var userName = '@(User.Identity.Name)';
 
         // Start the connection.
@@ -70,6 +72,10 @@
             $('#sendmessage').click(function () {
                 // Call the Send method on the hub.
                 chat.server.send(userName, $('#message').val());
+
+                // scroll to bottom
+                $("html, body").animate({ scrollTop: $(document).height() }, "slow");
+
                 // Clear text box and reset focus for next comment.
                 $('#message').val('').focus();
             });
