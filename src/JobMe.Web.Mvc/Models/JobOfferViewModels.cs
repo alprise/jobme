@@ -29,6 +29,7 @@ namespace JobMe.Web.Mvc.Models
         public string EmailToApply { get; set; }
         [Required]
         public string Title { get; set; }
+        [DataType(DataType.MultilineText)]
         public string Description { get; set; }
         public DateTime PublishedOn { get; set; }
         
@@ -52,4 +53,15 @@ namespace JobMe.Web.Mvc.Models
         public string Date { get; set; }
         public DateTime? DateAndTime { get; set; }
     }
+    public class JobOfferMessageDetailViewModel
+    {
+        public string MessageId { get; set; }
+        public string From { get; set; }
+        public string To { get; set; }
+        public string Subject { get; set; }
+        public string Date { get; set; }
+        public string Body { get; set; }
+        public DateTime? DateAndTime { get; set; }
+    }
+
 }

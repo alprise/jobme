@@ -54,6 +54,23 @@ namespace JobMe.Web.Mvc.Controllers
             return View(viewModel);
         }
 
+        // GET: /UserTest/MessageDetails/5
+        public ActionResult MessageDetails(string id)
+        {
+            // todo: we can simplify actions i.e. see Details and Delete for instance
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            JobOfferMessageDetailViewModel viewModel = new ImapService().GetMessageDetail(id);
+            if (viewModel == null)
+            {
+                return HttpNotFound();
+            }
+            
+            return View(viewModel);
+        }
+
 
         [HttpGet]
         public ActionResult Create()

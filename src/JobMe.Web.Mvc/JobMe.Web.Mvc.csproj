@@ -187,7 +187,7 @@
     <Compile Include="Models\JobOfferModels.cs" />
     <Compile Include="Models\JobOfferViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\OpenPopService.cs" />
+    <Compile Include="Services\ImapService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -249,6 +249,7 @@
     <Content Include="Views\Home\Sync.cshtml" />
     <Content Include="Views\Home\Unsync.cshtml" />
     <Content Include="Views\Home\Certificates.cshtml" />
+    <Content Include="Views\JobOffer\MessageDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

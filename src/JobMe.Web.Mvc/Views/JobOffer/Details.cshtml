@@ -51,6 +51,7 @@
         <th>
             Date
         </th>
+        <th></th>
     </tr>
 
     @foreach (var item in Model.Responses)
@@ -67,6 +68,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>@Html.ActionLink("Message details", "MessageDetails", new { id=item.MessageId }) |
+                @Html.ActionLink("Back to List", "Index")
             </td>
         </tr>
     }
