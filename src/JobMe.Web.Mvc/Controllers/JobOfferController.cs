@@ -55,7 +55,7 @@ namespace JobMe.Web.Mvc.Controllers
         }
 
         // GET: /UserTest/MessageDetails/5
-        public ActionResult MessageDetails(string id)
+        public ActionResult MessageDetails(uint id)
         {
             // todo: we can simplify actions i.e. see Details and Delete for instance
             if (id == null)

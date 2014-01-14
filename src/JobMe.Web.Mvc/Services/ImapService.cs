@@ -25,27 +25,44 @@ namespace JobMe.Web.Mvc.Services
             using (ImapClient Client = new ImapClient(hostname, port,
              username, password, AuthMethod.Login, useSsl))
             {
-                // TODO: get date as datetime
-                // 
+                Client.DefaultMailbox = "[Gmail]/Toate mesajele"; 
                 
-                uint[] uids = Client.Search(SearchCondition.From(domain));
-                MailMessage[] messagesFrom = Client.GetMessages(uids);
-                var messages = messagesFrom.Select(x => new JobOfferResponseViewModel
+                uint[] uids = Client.Search(SearchCondition.From(domain).Or(SearchCondition.To(domain)));
+                List<JobOfferResponseViewModel> allMessages = new List<JobOfferResponseViewModel>();
+                uids.ToList().ForEach(id =>
                 {
-                    MessageId = x.Headers["Message-ID"],
-                    From = x.From.Address,
-                    To = string.Join(",", x.To.Select(t => t.Address).ToArray()),
-                    Subject = x.Subject,
-                    Date = x.Headers["Date"]
-                }).ToList();
+                    var message = Client.GetMessage(id);
+                    allMessages.Add(new JobOfferResponseViewModel
+                {
+                    Uid = id,
+                    MessageId = message.Headers["Message-ID"],
+                    From = message.From.Address,
+                    To = string.Join(",", message.To.Select(t => t.Address).ToArray()),
+                    Subject = message.Subject,
+                    Date = message.Headers["Date"]
+                });
+                });
+                //TODO: measure performance of loading one message by uid or all by uids
+                //
+
+
+                //MailMessage[] messagesFrom = Client.GetMessages(uids);
+                //var messages = messagesFrom.Select(x => new JobOfferResponseViewModel
+                //{
+                //    MessageId = x.Headers["Message-ID"],
+                //    From = x.From.Address,
+                //    To = string.Join(",", x.To.Select(t => t.Address).ToArray()),
+                //    Subject = x.Subject,
+                //    Date = x.Headers["Date"]
+                //}).ToList();
 
                 
 
-                return messages;
+                return allMessages;
             }
         }
 
-        public JobOfferMessageDetailViewModel GetMessageDetail(string id)
+        public JobOfferMessageDetailViewModel GetMessageDetail(uint id)
         {
             JobOfferMessageDetailViewModel message = null;
             var hostname = ConfigurationManager.AppSettings["hostname"];
@@ -57,7 +74,8 @@ namespace JobMe.Web.Mvc.Services
             using (ImapClient Client = new ImapClient(hostname, port,
              username, password, AuthMethod.Login, useSsl))
             {
-                MailMessage messagesFrom = Client.GetMessage(uint.Parse(id));
+                Client.DefaultMailbox = "[Gmail]/Toate mesajele";
+                MailMessage messagesFrom = Client.GetMessage(id);
                 message = new JobOfferMessageDetailViewModel
                 {
                     MessageId = messagesFrom.Headers["Message-ID"],

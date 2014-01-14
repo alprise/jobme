@@ -46,6 +46,7 @@ namespace JobMe.Web.Mvc.Models
     }
     public class JobOfferResponseViewModel
     {
+        public uint Uid { get; set; }
         public string MessageId { get; set; }
         public string From { get; set; }
         public string To { get; set; }
