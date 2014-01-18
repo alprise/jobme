@@ -24,7 +24,7 @@ namespace JobMe.Web.Mvc.Controllers
         public ActionResult Index()
         {
             var userId = User.Identity.GetUserId();
-            var offers = db.JobOffers.Include(s => s.PublishedByUser).Where(u => u.CreatedByUser.Id == userId).ToList();
+            var offers = db.JobOffers.Include(s => s.PublishedByUser).Where(u => u.CreatedByUser.Id == userId).OrderByDescending(o=>o.PublishedOn).ToList();
             var jobOffers = offers.Select(x => new JobOfferIndexViewModel { Id=x.Id, Requester = x.PublishedByUser.UserName, Title = x.Title, PublishedOn = x.PublishedOn });
             return View(jobOffers);
         }
