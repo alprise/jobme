@@ -181,6 +181,10 @@
     <Compile Include="Migrations\201401032317071_AddColumnTestPropertyInJobOffer.Designer.cs">
       <DependentUpon>201401032317071_AddColumnTestPropertyInJobOffer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201401191950240_AddNewEntities_JobMessageHeader_And_Detail.cs" />
+    <Compile Include="Migrations\201401191950240_AddNewEntities_JobMessageHeader_And_Detail.Designer.cs">
+      <DependentUpon>201401191950240_AddNewEntities_JobMessageHeader_And_Detail.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -250,6 +254,7 @@
     <Content Include="Views\Home\Unsync.cshtml" />
     <Content Include="Views\Home\Certificates.cshtml" />
     <Content Include="Views\JobOffer\MessageDetails.cshtml" />
+    <Content Include="Views\JobOffer\SaveUnseen.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -267,6 +272,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201401032317071_AddColumnTestPropertyInJobOffer.resx">
       <DependentUpon>201401032317071_AddColumnTestPropertyInJobOffer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201401191950240_AddNewEntities_JobMessageHeader_And_Detail.resx">
+      <DependentUpon>201401191950240_AddNewEntities_JobMessageHeader_And_Detail.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

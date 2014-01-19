@@ -67,9 +67,9 @@
                 @Html.DisplayFor(modelItem => item.Subject)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Date)
+                @Html.DisplayFor(modelItem => item.DateAndTime)
             </td>
-            <td>@Html.ActionLink("Message details", "MessageDetails", new { id=item.Uid }) |
+            <td>@Html.ActionLink("Message details", "MessageDetails", new { id=item.Id}) |
                 @Html.ActionLink("Back to List", "Index")
             </td>
         </tr>

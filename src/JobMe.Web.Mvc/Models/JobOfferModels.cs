@@ -28,6 +28,29 @@ namespace JobMe.Web.Mvc.Models
         public string EmailToApply { get; set; } // Email to apply
         public virtual ApplicationUser PublishedByUser { get; set; }
         public virtual ApplicationUser CreatedByUser { get; set; }
+        public virtual ICollection<JobMessageHeader> JobMessageHeaders { get; set; }
         public string TestProperty { get; set; }
+    }
+    public class JobMessageHeader
+    {
+        public string Id { get; set; }
+        public string JobOfferId { get; set; }
+        public string From { get; set; }
+        public string To { get; set; }
+        public string Subject { get; set; }
+        public DateTime? Sent { get; set; }
+        public string Body { get; set; }
+        public bool IsHtml { get; set; }
+        public bool IsRead { get; set; }
+        public virtual ICollection<JobMessageDetail> Details { get; set; }
+        public virtual JobOffer JobOffer { get; set; }
+        
+    }
+    public class JobMessageDetail
+    {
+        public string Id { get; set; }
+        public string FileName { get; set; }
+        public int Size { get; set; }
+        public string ContentType { get; set; }
     }
 }

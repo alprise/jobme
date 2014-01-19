@@ -19,5 +19,7 @@ namespace JobMe.Web.Mvc.Models
         
         /* new app specific dbsets */
         public IDbSet<JobOffer> JobOffers { get; set; }
+        public IDbSet<JobMessageHeader> MessageHeaders { get; set; }
+        public IDbSet<JobMessageDetail> MessageDetails { get; set; }
     }
 }

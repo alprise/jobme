@@ -11,6 +11,8 @@ namespace JobMe.Web.Mvc.Models
         public string Id { get; set; }
         public string Requester { get; set; }        
         public string Title { get; set; }
+        public int Total { get; set; }
+        public int TotalRead { get; set; }
         public DateTime PublishedOn { get; set; }
     }
     public class JobOfferDeleteViewModel
@@ -46,21 +48,18 @@ namespace JobMe.Web.Mvc.Models
     }
     public class JobOfferResponseViewModel
     {
-        public uint Uid { get; set; }
-        public string MessageId { get; set; }
+        public string Id { get; set; }
         public string From { get; set; }
         public string To { get; set; }
         public string Subject { get; set; }
-        public string Date { get; set; }
         public DateTime? DateAndTime { get; set; }
     }
     public class JobOfferMessageDetailViewModel
     {
-        public string MessageId { get; set; }
+        public string Id { get; set; }
         public string From { get; set; }
         public string To { get; set; }
         public string Subject { get; set; }
-        public string Date { get; set; }
         public string Body { get; set; }
         public DateTime? DateAndTime { get; set; }
     }

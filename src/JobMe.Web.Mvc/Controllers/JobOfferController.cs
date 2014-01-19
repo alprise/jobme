@@ -24,9 +24,28 @@ namespace JobMe.Web.Mvc.Controllers
         public ActionResult Index()
         {
             var userId = User.Identity.GetUserId();
-            var offers = db.JobOffers.Include(s => s.PublishedByUser).Where(u => u.CreatedByUser.Id == userId).OrderByDescending(o=>o.PublishedOn).ToList();
-            var jobOffers = offers.Select(x => new JobOfferIndexViewModel { Id=x.Id, Requester = x.PublishedByUser.UserName, Title = x.Title, PublishedOn = x.PublishedOn });
-            return View(jobOffers);
+            var offers = db.JobOffers.
+                Include(s => s.PublishedByUser)
+                .Include(j => j.JobMessageHeaders)
+                .Where(u => u.CreatedByUser.Id == userId)
+                .OrderByDescending(o => o.PublishedOn)
+                .Select(x => new JobOfferIndexViewModel 
+            { Id=x.Id, Requester = x.PublishedByUser.UserName, Title = x.Title, PublishedOn = x.PublishedOn, Total=x.JobMessageHeaders.Count
+                , TotalRead =  x.JobMessageHeaders.Where(mh=>mh.IsRead).Count()});
+            return View(offers);
+        }
+
+        public ActionResult SaveUnseen()
+        {
+            return View();
+        }
+        [HttpPost, ActionName("SaveUnseen")]
+        [ValidateAntiForgeryToken]
+        public ActionResult SaveUnseenToDb()
+        {
+            var userId = User.Identity.GetUserId();
+            new ImapService().SaveUnseenMessages(userId);
+            return View();
         }
 
         // GET: /UserTest/Details/5
@@ -37,7 +56,10 @@ namespace JobMe.Web.Mvc.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            JobOffer offer = db.JobOffers.Include(o => o.PublishedByUser).Where(x => x.Id == id).SingleOrDefault();
+            JobOffer offer = db.JobOffers
+                .Include(o => o.PublishedByUser)
+                .Include(h=>h.JobMessageHeaders)
+                .Where(x => x.Id == id).SingleOrDefault();
             if (offer == null)
             {
                 return HttpNotFound();
@@ -49,24 +71,43 @@ namespace JobMe.Web.Mvc.Controllers
                 Title = offer.Title,
                 PublishedOn = offer.PublishedOn
             };
-            viewModel.Responses = new ImapService().GetMessagesForEmail(offer.EmailToApply);
+            viewModel.Responses = db.JobOffers.Find(id).JobMessageHeaders.Select(x =>
+                    new JobOfferResponseViewModel
+                    {
+                        Id = x.Id,
+                        From = x.From,
+                        To = x.To,
+                        Subject = x.Subject,
+                        DateAndTime = x.Sent
+                    });
 
             return View(viewModel);
         }
 
         // GET: /UserTest/MessageDetails/5
-        public ActionResult MessageDetails(uint id)
+        public ActionResult MessageDetails(string id)
         {
             // todo: we can simplify actions i.e. see Details and Delete for instance
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            JobOfferMessageDetailViewModel viewModel = new ImapService().GetMessageDetail(id);
-            if (viewModel == null)
+            var messageHeader = db.MessageHeaders.Find(id);
+            if (messageHeader == null)
             {
                 return HttpNotFound();
             }
+            messageHeader.IsRead = true;
+            db.SaveChanges();
+            JobOfferMessageDetailViewModel viewModel = new JobOfferMessageDetailViewModel
+            {
+                Id = messageHeader.Id,
+                From = messageHeader.From,
+                To = messageHeader.To,
+                Subject = messageHeader.Subject,
+                DateAndTime = messageHeader.Sent,
+                Body = messageHeader.Body
+            };
             
             return View(viewModel);
         }

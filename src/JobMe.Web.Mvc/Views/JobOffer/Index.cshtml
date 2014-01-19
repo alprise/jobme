@@ -7,6 +7,9 @@
 <h2>Index</h2>
 
 <p>
+    @Html.ActionLink("Load messages from server", "SaveUnseen")
+</p>
+<p>
     @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
@@ -29,7 +32,7 @@
             @Html.DisplayFor(modelItem => item.Requester)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Title)
+            @Html.DisplayFor(modelItem => item.Title)<strong>(@item.TotalRead<span>/</span>@item.Total)</strong>
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.PublishedOn)
