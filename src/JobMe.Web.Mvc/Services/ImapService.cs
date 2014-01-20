@@ -20,14 +20,27 @@ namespace JobMe.Web.Mvc.Services
 
             using (var db = new ApplicationDbContext())
             {
-                var allOffers = db.JobOffers.Where(u => u.CreatedByUser.Id == userId).ToList();
-
-                var jobheaders = db.JobOffers
+                var jobheadersQuery = db.JobOffers
                     .Include(s => s.PublishedByUser)
                     .Include(m => m.JobMessageHeaders)
-                    .Where(u => u.CreatedByUser.Id == userId)
+                    .Where(u => u.CreatedByUser.Id == userId);
+
+                var jobheaders = jobheadersQuery
                     .SelectMany(j => j.JobMessageHeaders).ToList();
-                var maxUid = jobheaders.Count > 0 ? jobheaders.Select(x=>x.Id).Cast<uint>().Max() : 0;
+                var allOffers = jobheadersQuery.ToList();
+
+                uint maxUid = 0;
+                foreach (var item in jobheaders)
+                {
+                    try
+                    {
+                        var messageId = item.Id;
+                        uint uid = Convert.ToUInt32(messageId);
+                        if (uid > maxUid) maxUid = uid;
+                    }
+                    catch {}
+                }
+                //var maxUid = 0; jobheaders.Count > 0 ? jobheaders.Select(x => x.Id).Cast<uint>().Max() : 0;
 
                 using (ImapClient Client = new ImapClient(ImapSettings.Hostname, ImapSettings.Port,
              ImapSettings.Username, ImapSettings.Password, AuthMethod.Login, ImapSettings.UseSsl))
