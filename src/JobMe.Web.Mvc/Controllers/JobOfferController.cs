@@ -37,15 +37,15 @@ namespace JobMe.Web.Mvc.Controllers
 
         public ActionResult SaveUnseen()
         {
-            return View();
+            return View(-1);
         }
         [HttpPost, ActionName("SaveUnseen")]
         [ValidateAntiForgeryToken]
         public ActionResult SaveUnseenToDb()
         {
             var userId = User.Identity.GetUserId();
-            new ImapService().SaveUnseenMessages(userId);
-            return View();
+            var noOfObjectsWritten = new ImapService().SaveUnseenMessages(userId);
+            return View(noOfObjectsWritten);
         }
 
         // GET: /UserTest/Details/5

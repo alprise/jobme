@@ -14,7 +14,7 @@ namespace JobMe.Web.Mvc.Services
     public class ImapService
     {
 
-        internal void SaveUnseenMessages(string userId)
+        internal int SaveUnseenMessages(string userId)
         {
             Contract.Requires(!string.IsNullOrEmpty(ImapSettings.Hostname));
 
@@ -74,7 +74,7 @@ namespace JobMe.Web.Mvc.Services
 
                     });
                 }
-                db.SaveChanges();
+                return db.SaveChanges();
             }
         }
 

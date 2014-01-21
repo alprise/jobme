@@ -1,10 +1,15 @@
-﻿@{
+﻿@model int
+@{
     ViewBag.Title = "Load messages from server";
 }
 
 <h2>Load messages</h2>
 
-<h3>All unseen messages have been loaded from server.</h3>
+@if (Model >= 0)
+{
+    <h3> @Model new messages loaded from the server and saved in db.</h3>
+}
+    
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
