@@ -46,8 +46,14 @@ namespace JobMe.Web.Mvc.Services
              ImapSettings.Username, ImapSettings.Password, AuthMethod.Login, ImapSettings.UseSsl))
                 {
                     Client.DefaultMailbox = "[Gmail]/Toate mesajele";
-                    uint[] uids = Client.Search(SearchCondition.GreaterThan(maxUid));
-                    uids.ToList().ForEach(id =>
+                    List<uint> uids = Client.Search(SearchCondition.GreaterThan(maxUid)).ToList();
+                    // we need to removed the maxUid item because the comment of SearchCondition.GreaterThan says:
+                    //Finds messages with a unique identifier greater than the specified unique
+                    //     identifier. Because of the nature of the IMAP search mechanism, the result
+                    //     set will always contain the UID of the last message in the mailbox, even
+                    //     if said UID is smaller than the UID specified.
+                    if (uids.Contains(maxUid)) uids.Remove(maxUid); 
+                    uids.ForEach(id =>
                     {
                         try
                         {
