@@ -14,6 +14,7 @@ namespace JobMe.Web.Mvc.Models
         public int Total { get; set; }
         public int TotalRead { get; set; }
         public DateTime PublishedOn { get; set; }
+        public DateTime ApplyedOn { get; set; }
     }
     public class JobOfferDeleteViewModel
     {

@@ -36,7 +36,7 @@ namespace JobMe.Web.Mvc.Controllers
                 .Where(u => u.CreatedByUser.Id == userId && u.ApplyedOn >= offersNewerThan)
                 .OrderByDescending(o => o.ApplyedOn)
                 .Select(x => new JobOfferIndexViewModel 
-            { Id=x.Id, Requester = x.PublishedByUser.UserName, Title = x.Title, PublishedOn = x.PublishedOn, Total=x.JobMessageHeaders.Count
+            { Id=x.Id, Requester = x.PublishedByUser.UserName, Title = x.Title, ApplyedOn=x.ApplyedOn, PublishedOn = x.PublishedOn, Total=x.JobMessageHeaders.Count
                 , TotalRead =  x.JobMessageHeaders.Where(mh=>mh.IsRead).Count()});
             return View(offers);
         }

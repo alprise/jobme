@@ -28,7 +28,7 @@
             @Html.DisplayNameFor(model => model.Title)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PublishedOn)
+            @Html.DisplayNameFor(model => model.ApplyedOn)
         </th>
         <th></th>
     </tr>
@@ -42,7 +42,7 @@
             @Html.DisplayFor(modelItem => item.Title)<strong>(@item.TotalRead<span>/</span>@item.Total)</strong>
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.PublishedOn)
+            @Html.DisplayFor(modelItem => item.ApplyedOn)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
