@@ -145,6 +145,7 @@ namespace JobMe.Web.Mvc.Controllers
                     EmailToApply = jobOffer.EmailToApply,
                     Description=jobOffer.Description, 
                     PublishedOn=jobOffer.PublishedOn,
+                    ApplyedOn = DateTime.Now,
                     PublishedByUser = user,
                     CreatedByUser = loggedUser
                 });
