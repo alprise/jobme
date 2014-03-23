@@ -29,7 +29,7 @@ namespace JobMe.Web.Mvc.Models
         public virtual ApplicationUser PublishedByUser { get; set; }
         public virtual ApplicationUser CreatedByUser { get; set; }
         public virtual ICollection<JobMessageHeader> JobMessageHeaders { get; set; }
-        public string TestProperty { get; set; }
+        public DateTime ApplyedOn { get; set; }
     }
     public class JobMessageHeader
     {

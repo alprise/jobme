@@ -21,14 +21,20 @@ namespace JobMe.Web.Mvc.Controllers
         //
         // GET: /JobOffer/
     
-        public ActionResult Index()
+        public ActionResult Index(DateTime? applyedOn)
         {
+            // job from two weeks ago or
+            DateTime offersNewerThan = DateTime.Now.AddDays(-14);
+            if (applyedOn.HasValue)
+            {
+                offersNewerThan = applyedOn.Value;
+            }
             var userId = User.Identity.GetUserId();
             var offers = db.JobOffers.
                 Include(s => s.PublishedByUser)
                 .Include(j => j.JobMessageHeaders)
-                .Where(u => u.CreatedByUser.Id == userId)
-                .OrderByDescending(o => o.PublishedOn)
+                .Where(u => u.CreatedByUser.Id == userId && u.ApplyedOn >= offersNewerThan)
+                .OrderByDescending(o => o.ApplyedOn)
                 .Select(x => new JobOfferIndexViewModel 
             { Id=x.Id, Requester = x.PublishedByUser.UserName, Title = x.Title, PublishedOn = x.PublishedOn, Total=x.JobMessageHeaders.Count
                 , TotalRead =  x.JobMessageHeaders.Where(mh=>mh.IsRead).Count()});
