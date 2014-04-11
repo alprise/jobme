@@ -23,6 +23,15 @@ namespace JobMe.Web.Mvc.Models
         public string Title { get; set; }
         public DateTime PublishedOn { get; set; }
     }
+
+    public class JobOfferApplyViewModel
+    {
+        public string Id { get; set; }
+        public string EmailToApply { get; set; }
+        public string Requester { get; set; }
+        public string Title { get; set; }
+        public DateTime PublishedOn { get; set; }
+    }
     public class JobOfferCreateEditViewModel
     {
         public string Id { get; set; }

@@ -233,7 +233,47 @@ namespace JobMe.Web.Mvc.Controllers
             return RedirectToAction("Index");
         }
 
+        // GET: /JobOffer/Delete/5
+        public ActionResult Apply(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            JobOffer offer = db.JobOffers.Include(o => o.PublishedByUser).Where(x => x.Id == id).SingleOrDefault();
 
+            if (offer == null)
+            {
+                return HttpNotFound();
+            }
+            JobOfferApplyViewModel viewModel = new JobOfferApplyViewModel
+            {
+                Id = offer.Id,
+                Requester = offer.PublishedByUser.UserName,
+                EmailToApply = offer.EmailToApply,
+                Title = offer.Title,
+                PublishedOn = offer.PublishedOn
+            };
+            return View(viewModel);
+        }
+
+        // POST: /UserTest/Delete/5
+        [HttpPost, ActionName("Apply")]
+        [ValidateAntiForgeryToken]
+        public ActionResult ApplyExecuted(string id)
+        {
+            JobOffer offer = db.JobOffers.Include(o => o.PublishedByUser).Where(x => x.Id == id).SingleOrDefault();
+            JobOfferApplyViewModel viewModel = new JobOfferApplyViewModel
+            {
+                Id = offer.Id,
+                Requester = offer.PublishedByUser.UserName,
+                EmailToApply = offer.EmailToApply,
+                Title = offer.Title,
+                PublishedOn = offer.PublishedOn
+            };
+            new MailerService().Verification(viewModel).Deliver();
+            return RedirectToAction("Index");
+        }
 
         protected override void Dispose(bool disposing)
         {
